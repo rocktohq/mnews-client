@@ -16,7 +16,7 @@ const Navbar = () => {
       <li>
         <NavLink
           className="hover:text-primary hover:underline duration-300"
-          to="/user-dashboard/add-article"
+          to="/add-article"
         >
           Add Article
         </NavLink>
@@ -40,7 +40,7 @@ const Navbar = () => {
       <li>
         <NavLink
           className="hover:text-primary hover:underline duration-300"
-          to="/admin-dashboard"
+          to="/dashboard"
         >
           Dashboard
         </NavLink>
@@ -48,7 +48,7 @@ const Navbar = () => {
       <li>
         <NavLink
           className="hover:text-primary hover:underline duration-300"
-          to="/user-dashboard/my-articles"
+          to="/my-articles"
         >
           My Articles
         </NavLink>
@@ -102,10 +102,16 @@ const Navbar = () => {
         </div>
         <div className="navbar-end space-x-2">
           <Link to="/login">
-            <button className="btn btn-primary rounded-md"><LuLogIn />Login</button>
+            <button className="btn btn-primary rounded-md">
+              <LuLogIn />
+              Login
+            </button>
           </Link>
           <Link to="/register">
-            <button className="btn btn-outline btn-primary rounded-md"><LuUserPlus />Register</button>
+            <button className="btn btn-outline btn-primary rounded-md">
+              <LuUserPlus />
+              Register
+            </button>
           </Link>
         </div>
       </nav>

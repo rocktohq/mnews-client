@@ -1,9 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
+import { HelmetProvider } from "react-helmet-async";
+import { RouterProvider } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+import { router } from "./Routes/Router";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <h1 className="text-5xl text-center text-neutral-800 font-bold my-10">Hello from mNews</h1>
+    <HelmetProvider>
+      <RouterProvider router={router}></RouterProvider>
+      <Toaster />
+    </HelmetProvider>
   </React.StrictMode>
 );

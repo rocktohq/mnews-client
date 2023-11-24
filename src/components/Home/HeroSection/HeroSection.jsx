@@ -3,7 +3,7 @@ import bannerImage from "../../../assets/images/banner.png";
 import Container from "../../shared/Container";
 const HeroSection = () => {
   return (
-    <Container padding="py-10">
+    <Container className="py-20">
       <div className="flex flex-col md:flex-row gap-5 md:justify-between md:items-center">
         <div className="md:w-1/2">
           <h1 className="text-5xl font-bold text-neutral-600">

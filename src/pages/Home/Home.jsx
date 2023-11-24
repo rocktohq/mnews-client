@@ -8,6 +8,7 @@ import Publishers from "../../components/Home/Publishers/Publishers";
 import MembershipPlans from "../../components/Home/MembershipPlans/MembershipPlans";
 import TrendingArticles from "../../components/Home/TrendingArticles/TrendingArticles";
 import HeroSection from "../../components/Home/HeroSection/HeroSection";
+import Opinions from "../../components/Home/Opinions/Opinions";
 
 const Home = () => {
   return (
@@ -31,6 +32,9 @@ const Home = () => {
 
       {/* Stats */}
       <UserStats />
+
+      {/* TODO: Opinions */}
+      <Opinions />
 
       {/* Founder */}
       <Founder />

@@ -4,7 +4,7 @@ import Title from "../../shared/Title";
 
 const MembershipPlans = () => {
   return (
-    <Container className="py-10 bg-slate-50">
+    <Container className="py-20">
       <Title
         heading={`Our Subscription Plans`}
         subHeading={`Choose the best one!`}

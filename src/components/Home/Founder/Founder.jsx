@@ -3,7 +3,7 @@ import Title from "../../shared/Title";
 import founderImage from "../../../assets/images/founder.jpg";
 const Founder = () => {
   return (
-    <Container className="py-10 bg-cyan-50">
+    <Container className="py-20">
       <Title
         heading={"About Founder"}
         subHeading={"Founder's Speech"}

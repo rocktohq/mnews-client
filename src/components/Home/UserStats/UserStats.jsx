@@ -13,7 +13,7 @@ const UserStats = () => {
   }, []);
 
   return (
-    <Container className="py-10 bg-base-200">
+    <Container className="py-20">
       <Title
         heading="Our user statistics"
         subHeading="Valuable Users"

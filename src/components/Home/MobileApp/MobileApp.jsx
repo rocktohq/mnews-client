@@ -6,7 +6,7 @@ import playStore from "../../../assets/images/playstore.png";
 
 const MobileApp = () => {
   return (
-    <Container className="py-10 bg-red-50">
+    <Container className="py-20 bg-cyan-50">
       <Title
         heading={"Browse Smoothly from Anywhere"}
         subHeading={"Download Mobile Apps!"}

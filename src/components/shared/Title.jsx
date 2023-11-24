@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 
-const Title = ({ big, heading, subHeading }) => {
+const Title = ({ center, big, heading, subHeading }) => {
   return (
-    <div className="border-l-8 border-primary pl-1">
+    <div className={`border-primary ${center && "text-center"}`}>
       <h2 className={`${big ? "text-3xl" : "text-2xl"} font-bold uppercase`}>
         {heading && heading}
       </h2>
@@ -19,4 +19,5 @@ Title.propTypes = {
   big: PropTypes.bool,
   heading: PropTypes.string,
   subHeading: PropTypes.string,
+  center: PropTypes.bool,
 };

@@ -3,8 +3,13 @@ import Title from "../../shared/Title";
 import founderImage from "../../../assets/images/founder.jpg";
 const Founder = () => {
   return (
-    <Container padding="py-10">
-      <Title heading={"About Founder"} subHeading={"Founder's Speech"} big />
+    <Container className="py-10 bg-cyan-50">
+      <Title
+        heading={"About Founder"}
+        subHeading={"Founder's Speech"}
+        big
+        center
+      />
       <div className="flex flex-col md:flex-row gap-5 md:items-center mt-5">
         <figure className="md:w-1/2">
           <img

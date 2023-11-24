@@ -6,11 +6,12 @@ import playStore from "../../../assets/images/playstore.png";
 
 const MobileApp = () => {
   return (
-    <Container padding="py-10">
+    <Container className="py-10 bg-red-50">
       <Title
         heading={"Browse Smoothly from Anywhere"}
         subHeading={"Download Mobile Apps!"}
         big
+        center
       />
       <div className="flex flex-col md:flex-row gap-5 mt-5 md:justify-between md:items-center">
         <div className="md:w-1/2">

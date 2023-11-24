@@ -17,13 +17,13 @@ const Home = () => {
       </Helmet>
       <Header />
 
-      {/* TODO: Hero Section */}
+      {/* Hero Section */}
       <HeroSection />
 
       {/* TODO: Trending Articles */}
       <TrendingArticles />
 
-      {/* TODO: Membership Plans */}
+      {/* Membership Plans */}
       <MembershipPlans />
 
       {/* TODO: Publishers */}

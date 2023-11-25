@@ -1,12 +1,15 @@
 import { Helmet } from "react-helmet-async";
 import { FaGoogle } from "react-icons/fa";
 import { LuLogIn } from "react-icons/lu";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 
 const Login = () => {
   const { signInUser, googleSignIn } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const handleLogin = async (event) => {
     event.preventDefault();
 
@@ -17,7 +20,12 @@ const Login = () => {
     const toastId = toast.loading("Login in user...");
     try {
       await signInUser(email, password);
-      toast.success("Login success", { id: toastId });
+      toast.success("Login successful", { id: toastId });
+      if (location?.state) {
+        navigate(`${location.state}`);
+      } else {
+        navigate("/");
+      }
     } catch (error) {
       toast.error(error.message, { id: toastId });
     }
@@ -28,6 +36,11 @@ const Login = () => {
     try {
       await googleSignIn();
       toast.success("Login successful", { id: toastId });
+      if (location?.state) {
+        navigate(`${location.state}`);
+      } else {
+        navigate("/");
+      }
     } catch (error) {
       toast.error(error.message, { id: toastId });
     }

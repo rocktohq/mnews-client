@@ -2,9 +2,13 @@ import { Link, NavLink } from "react-router-dom";
 import Container from "../Container";
 import { LuLogIn, LuLogOut, LuUserPlus } from "react-icons/lu";
 import useAuth from "../../../hooks/useAuth";
+import useAdmin from "../../../hooks/useAdmin";
+import usePremium from "../../../hooks/usePremium";
 
 const Navbar = () => {
   const { user, signOutUser } = useAuth();
+  const { isAdmin } = useAdmin();
+  const { isPremium } = usePremium();
 
   const handleLogOut = async () => {
     await signOutUser();
@@ -19,14 +23,16 @@ const Navbar = () => {
           Home
         </NavLink>
       </li>
-      <li>
-        <NavLink
-          className="hover:text-primary hover:underline duration-300"
-          to="/dashboard"
-        >
-          Dashboard
-        </NavLink>
-      </li>
+      {user && isAdmin && (
+        <li>
+          <NavLink
+            className="hover:text-primary hover:underline duration-300"
+            to="/dashboard"
+          >
+            Dashboard
+          </NavLink>
+        </li>
+      )}
       <li>
         <NavLink
           className="hover:text-primary hover:underline duration-300"
@@ -55,22 +61,28 @@ const Navbar = () => {
           </li>
         </>
       )}
-      <li>
-        <NavLink
-          className="hover:text-primary hover:underline duration-300"
-          to="/subscriptions"
-        >
-          Subscriptions
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          className="hover:text-primary hover:underline duration-300"
-          to="/premium-articles"
-        >
-          Premium Articles
-        </NavLink>
-      </li>
+      {isAdmin || isPremium ? (
+        ""
+      ) : (
+        <li>
+          <NavLink
+            className="hover:text-primary hover:underline duration-300"
+            to="/subscriptions"
+          >
+            Subscriptions
+          </NavLink>
+        </li>
+      )}
+      {isPremium && (
+        <li>
+          <NavLink
+            className="hover:text-primary hover:underline duration-300"
+            to="/premium-articles"
+          >
+            Premium Articles
+          </NavLink>
+        </li>
+      )}
     </>
   );
   return (
@@ -114,7 +126,7 @@ const Navbar = () => {
         <div className="navbar-end space-x-2">
           {user?.email ? (
             <>
-              <Link to="/my-profile">
+              <Link to="/user/my-profile">
                 <img className="h-10 w-10 rounded-full" src={user.photoURL} />
               </Link>
               <button

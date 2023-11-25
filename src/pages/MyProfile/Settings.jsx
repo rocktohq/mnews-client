@@ -7,17 +7,13 @@ const Settings = () => {
       <div>
         <ul>
           <li>
-            <NavLink to="/my-profile">&#187; My Profile</NavLink>
+            <NavLink to="/user/my-profile">&#187; My Profile</NavLink>
           </li>
           <li>
-            <NavLink to="/my-profile/change-password">
-              &#187; Change Password
-            </NavLink>
+            <NavLink to="/user/change-password">&#187; Change Password</NavLink>
           </li>
           <li>
-            <NavLink to="/my-profile/update-profile">
-              &#187; Update Profile
-            </NavLink>
+            <NavLink to="/user/update-profile">&#187; Update Profile</NavLink>
           </li>
         </ul>
       </div>

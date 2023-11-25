@@ -92,8 +92,9 @@ const Navbar = () => {
             </ul>
           </div>
           <Link to="/">
-            <p className="text-3xl font-bold text-neutral-600">
-              <span className="text-primary">m</span>News
+            <p className="text-3xl font-bold text-neutral-600 flex items-center">
+              <span className="text-primary">/m</span>
+              <span className="hidden md:flex">News</span>
             </p>
           </Link>
         </div>

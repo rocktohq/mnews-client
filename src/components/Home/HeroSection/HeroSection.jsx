@@ -7,17 +7,19 @@ const HeroSection = () => {
       <div className="flex flex-col md:flex-row gap-5 md:justify-between md:items-center">
         <div className="md:w-1/2">
           <h1 className="text-5xl font-bold text-neutral-600">
-            {`Experience News Unleashed: Your Gateway to Unparalleled Insights`}
+            {`Experience News Unleashed:`}
             <span className="text-primary">
               <Typewriter
                 options={{
                   strings: [
-                    "Publish your news",
-                    "Read the latest news",
-                    "Subscribe and read premium news",
+                    "Publish Your News",
+                    "Read the Latest News",
+                    "Subscribe and read Premium Articles",
+                    "Your Gateway to Unparalleled Insights",
                   ],
                   autoStart: true,
                   loop: true,
+                  cursor: "_"
                 }}
               />
             </span>

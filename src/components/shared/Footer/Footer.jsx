@@ -2,7 +2,7 @@ import Container from "../Container";
 
 const Footer = () => {
   return (
-    <footer>
+    <footer className="py-8">
       <Container>
         <div>
           <p className="text-center">

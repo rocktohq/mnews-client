@@ -10,6 +10,7 @@ import MyProfile from "../pages/MyProfile/MyProfile";
 import ProfileInfo from "../pages/MyProfile/ProfileInfo";
 import UpdateProfile from "../pages/MyProfile/UpdateProfile";
 import ChangePassword from "../pages/MyProfile/ChangePassword";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -22,10 +23,33 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "my-profile",
-        element: <MyProfile />,
+        path: "articles",
+        element: (
+          <PrivateRoute>
+            <Articles />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "premium-articles",
+        element: (
+          <PrivateRoute>
+            <PremiumArticles />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/user",
+        element: (
+          <PrivateRoute>
+            <MyProfile />
+          </PrivateRoute>
+        ),
         children: [
-          { path: "/my-profile", element: <ProfileInfo /> },
+          {
+            path: "my-profile",
+            element: <ProfileInfo />,
+          },
           {
             path: "update-profile",
             element: <UpdateProfile />,
@@ -35,14 +59,6 @@ export const router = createBrowserRouter([
             element: <ChangePassword />,
           },
         ],
-      },
-      {
-        path: "articles",
-        element: <Articles />,
-      },
-      {
-        path: "premium-articles",
-        element: <PremiumArticles />,
       },
       {
         path: "login",

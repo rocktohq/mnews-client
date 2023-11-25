@@ -1,7 +1,6 @@
 import { Helmet } from "react-helmet-async";
-import { FaGoogle } from "react-icons/fa";
 import { LuUserPlus } from "react-icons/lu";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
@@ -13,6 +12,7 @@ const imgbbApiUrl = `https://api.imgbb.com/1/upload?key=${imgbbApiKey}`;
 const Login = () => {
   const { signUpUser, updateUserProfile } = useAuth();
   const axiosPublic = useAxiosPublic();
+  const navigate = useNavigate();
 
   const handleRegister = async (event) => {
     event.preventDefault();
@@ -77,8 +77,17 @@ const Login = () => {
         try {
           await signUpUser(email, password);
           await updateUserProfile(name, imgbbRes.data.data.display_url);
+
+          const user = { name, email };
+
+          const userRes = await axiosPublic.post("/users", user);
+          if (!userRes.data.insertedId) {
+            toast.error("User alredy exists!", { id: toastId });
+            return;
+          }
+
           toast.success("Registration success", { id: toastId });
-          //   navigate("/");
+          navigate("/");
         } catch (error) {
           toast.error(error.message, { id: toastId });
         }
@@ -173,12 +182,7 @@ const Login = () => {
                 .
               </p>
             </form>
-            <div className="card-body pt-0">
-              <span className="divider">OR</span>
-              <button className="btn btn-primary btn-outline">
-                <FaGoogle /> Register with Google
-              </button>
-            </div>
+            <div className="card-body pt-0"></div>
           </div>
         </div>
       </div>

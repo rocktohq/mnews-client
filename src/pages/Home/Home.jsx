@@ -21,7 +21,7 @@ const Home = () => {
       {/* Hero Section */}
       <HeroSection />
 
-      {/* TODO: Trending Articles */}
+      {/* Trending Articles */}
       <TrendingArticles />
 
       {/* Membership Plans */}

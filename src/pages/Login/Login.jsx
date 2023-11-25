@@ -1,35 +1,42 @@
 import { Helmet } from "react-helmet-async";
-import Header from "../../components/shared/Header/Header";
-import Footer from "../../components/shared/Footer/Footer";
 import { FaGoogle } from "react-icons/fa";
+import { LuLogIn } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 
 const Login = () => {
-  const { googleSignIn } = useAuth();
-  const handleLogin = (event) => {
+  const { signInUser, googleSignIn } = useAuth();
+  const handleLogin = async (event) => {
     event.preventDefault();
+
+    const form = event.target;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    const toastId = toast.loading("Login in user...");
+    try {
+      await signInUser(email, password);
+      toast.success("Login success", { id: toastId });
+    } catch (error) {
+      toast.error(error.message, { id: toastId });
+    }
   };
 
-  const handleGoogleLogin = () => {
+  const handleGoogleLogin = async () => {
     const toastId = toast.loading("Login in user...");
-    googleSignIn()
-      .then((data) => {
-        if (data?.user?.email) {
-          toast.success("Login successful", { id: toastId });
-        }
-      })
-      .catch((error) => {
-        toast.error(error.code);
-      });
+    try {
+      await googleSignIn();
+      toast.success("Login successful", { id: toastId });
+    } catch (error) {
+      toast.error(error.message, { id: toastId });
+    }
   };
   return (
     <>
       <Helmet>
         <title>mNews | Login</title>
       </Helmet>
-      <Header />
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <div className="text-center">
@@ -68,7 +75,10 @@ const Login = () => {
                 />
               </div>
               <div className="form-control mt-6">
-                <button className="btn btn-primary">Login</button>
+                <button className="btn btn-primary">
+                  <LuLogIn />
+                  Login
+                </button>
               </div>
               <p className="mt-2">
                 » Need an account?{" "}
@@ -94,7 +104,6 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

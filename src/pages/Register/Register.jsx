@@ -1,7 +1,6 @@
 import { Helmet } from "react-helmet-async";
-import Header from "../../components/shared/Header/Header";
-import Footer from "../../components/shared/Footer/Footer";
 import { FaGoogle } from "react-icons/fa";
+import { LuUserPlus } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
@@ -94,7 +93,6 @@ const Login = () => {
       <Helmet>
         <title>mNews | Register</title>
       </Helmet>
-      <Header />
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <div className="text-center">
@@ -158,7 +156,10 @@ const Login = () => {
                 />
               </div>
               <div className="form-control mt-6">
-                <button className="btn btn-primary">Register</button>
+                <button className="btn btn-primary">
+                  <LuUserPlus />
+                  Register
+                </button>
               </div>
               <p className="mt-2">
                 » Already have an account?{" "}
@@ -181,7 +182,6 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

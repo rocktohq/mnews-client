@@ -1,6 +1,4 @@
 import { Helmet } from "react-helmet-async";
-import Footer from "../../components/shared/Footer/Footer";
-import Header from "../../components/shared/Header/Header";
 import UserStats from "../../components/Home/UserStats/UserStats";
 import Founder from "../../components/Home/Founder/Founder";
 import MobileApp from "../../components/Home/MobileApp/MobileApp";
@@ -16,7 +14,6 @@ const Home = () => {
       <Helmet>
         <title>mNews | Home</title>
       </Helmet>
-      <Header />
 
       {/* Hero Section */}
       <HeroSection />
@@ -27,7 +24,7 @@ const Home = () => {
       {/* Membership Plans */}
       <MembershipPlans />
 
-      {/* TODO: Publishers */}
+      {/* Publishers */}
       <Publishers />
 
       {/* Stats */}
@@ -41,8 +38,6 @@ const Home = () => {
 
       {/* Mobile Application */}
       <MobileApp />
-
-      <Footer />
     </>
   );
 };

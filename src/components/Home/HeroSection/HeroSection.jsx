@@ -6,7 +6,7 @@ const HeroSection = () => {
     <Container className="py-20">
       <div className="flex flex-col md:flex-row gap-5 md:justify-between md:items-center">
         <div className="md:w-1/2">
-          <h1 className="text-5xl font-bold text-neutral-600">
+          <h1 className="text-2xl lg:text-5xl font-bold text-neutral-600 overflow-hidden">
             {`Experience News Unleashed:`}
             <span className="text-primary">
               <Typewriter
@@ -14,12 +14,11 @@ const HeroSection = () => {
                   strings: [
                     "Publish Your News",
                     "Read the Latest News",
-                    "Subscribe and read Premium Articles",
-                    "Your Gateway to Unparalleled Insights",
+                    "Subscribe for Premium Articles",
                   ],
                   autoStart: true,
                   loop: true,
-                  cursor: "_"
+                  cursor: "_",
                 }}
               />
             </span>

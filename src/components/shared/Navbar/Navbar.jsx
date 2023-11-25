@@ -1,8 +1,14 @@
 import { Link, NavLink } from "react-router-dom";
 import Container from "../Container";
-import { LuLogIn, LuUserPlus } from "react-icons/lu";
+import { LuLogIn, LuLogOut, LuUserPlus } from "react-icons/lu";
+import useAuth from "../../../hooks/useAuth";
 
 const Navbar = () => {
+  const { user, signOutUser } = useAuth();
+
+  const handleLogOut = async () => {
+    await signOutUser();
+  };
   const navLinks = (
     <>
       <li>
@@ -16,9 +22,9 @@ const Navbar = () => {
       <li>
         <NavLink
           className="hover:text-primary hover:underline duration-300"
-          to="/add-article"
+          to="/dashboard"
         >
-          Add Article
+          Dashboard
         </NavLink>
       </li>
       <li>
@@ -29,28 +35,32 @@ const Navbar = () => {
           All Articles
         </NavLink>
       </li>
+      {user?.email && (
+        <>
+          <li>
+            <NavLink
+              className="hover:text-primary hover:underline duration-300"
+              to="/add-article"
+            >
+              Add Article
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              className="hover:text-primary hover:underline duration-300"
+              to="/my-articles"
+            >
+              My Articles
+            </NavLink>
+          </li>
+        </>
+      )}
       <li>
         <NavLink
           className="hover:text-primary hover:underline duration-300"
           to="/subscriptions"
         >
           Subscriptions
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          className="hover:text-primary hover:underline duration-300"
-          to="/dashboard"
-        >
-          Dashboard
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          className="hover:text-primary hover:underline duration-300"
-          to="/my-articles"
-        >
-          My Articles
         </NavLink>
       </li>
       <li>
@@ -102,18 +112,35 @@ const Navbar = () => {
           <ul className="flex items-center gap-3 text-lg">{navLinks}</ul>
         </div>
         <div className="navbar-end space-x-2">
-          <Link to="/login">
-            <button className="btn btn-primary rounded-md">
-              <LuLogIn />
-              Login
-            </button>
-          </Link>
-          <Link to="/register">
-            <button className="btn btn-outline btn-primary rounded-md">
-              <LuUserPlus />
-              Register
-            </button>
-          </Link>
+          {user?.email ? (
+            <>
+              <Link to="/my-profile">
+                <img className="h-10 w-10 rounded-full" src={user.photoURL} />
+              </Link>
+              <button
+                onClick={handleLogOut}
+                className="btn btn-secondary rounded-md"
+              >
+                <LuLogOut />
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login">
+                <button className="btn btn-primary rounded-md">
+                  <LuLogIn />
+                  Login
+                </button>
+              </Link>
+              <Link to="/register" className="hidden md:flex">
+                <button className="btn btn-outline btn-secondary rounded-md">
+                  <LuUserPlus />
+                  Register
+                </button>
+              </Link>
+            </>
+          )}
         </div>
       </nav>
     </Container>

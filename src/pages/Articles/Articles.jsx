@@ -10,7 +10,7 @@ import ArticleCard from "../../components/shared/ArticleCard/ArticleCard";
 const Articles = () => {
   const axiosSecure = useAxiosSecure();
   // Limit [Koyta Data Show Korte Chan]
-  const limit = 1;
+  const limit = 2;
 
   // Data Fetching Function
   const getArticles = async ({ pageParam = 0 }) => {

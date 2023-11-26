@@ -9,7 +9,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 const PremiumArticles = () => {
   const axiosSecure = useAxiosSecure();
-  const limit = 1;
+  const limit = 2;
 
   // Data Fetching Function
   const getArticles = async ({ pageParam = 0 }) => {
@@ -22,7 +22,7 @@ const PremiumArticles = () => {
   // Infinite Query [TanstackQuery]
   const { data, fetchNextPage, hasNextPage, isPending, isLoading } =
     useInfiniteQuery({
-      queryKey: ["articles"],
+      queryKey: ["premiumArticles"],
       queryFn: getArticles,
       getNextPageParam: (lastPage) => {
         if (lastPage.prevOffset + limit > lastPage.articlesCount) {

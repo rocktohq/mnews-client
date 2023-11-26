@@ -58,7 +58,7 @@ const Opinions = () => {
 
   return (
     <Container className="py-20 bg-cyan-50">
-      <Title heading="Oninions" subHeading="What users say" big center />
+      <Title heading="Opinions" subHeading="What Users Say" big center />
       {isPending && <Loader />}
       {reviews.length > 0 && (
         <div className="mt-5">

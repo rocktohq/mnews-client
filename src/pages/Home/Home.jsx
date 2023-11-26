@@ -30,7 +30,7 @@ const Home = () => {
       {/* Stats */}
       <UserStats />
 
-      {/* TODO: Opinions */}
+      {/* Opinions */}
       <Opinions />
 
       {/* Founder */}

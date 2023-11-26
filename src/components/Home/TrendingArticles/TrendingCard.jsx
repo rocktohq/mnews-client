@@ -21,7 +21,7 @@ const TrendingCard = ({ article }) => {
         <p className="text-neutral-600 text-justify">
           {articleSlicer(article?.description)}
           &nbsp;
-          <Link>
+          <Link to={`/articles/${article._id}`}>
             <button className="btn btn-primary rounded-md btn-sm">
               Read More
             </button>

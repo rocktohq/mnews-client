@@ -1,15 +1,21 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import Container from "../components/shared/Container";
 import Loader from "../components/shared/Loader";
 import { Helmet } from "react-helmet-async";
 import Title from "../components/shared/Title";
+import usePremium from "../hooks/usePremium";
+import toast from "react-hot-toast";
 
 const SingleArticle = () => {
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
-  const { data: article, isPending } = useQuery({
+  const {
+    data: article,
+    isPending,
+    isLoading,
+  } = useQuery({
     queryKey: ["article"],
     queryFn: async () => {
       const res = await axiosSecure.get(`/articles/${id}`);
@@ -17,7 +23,16 @@ const SingleArticle = () => {
     },
   });
 
-  if (isPending) return <Loader />;
+  const { isPremium } = usePremium();
+  const navigate = useNavigate();
+
+  if (isPending || isLoading) return <Loader />;
+  if (article.isPremium && !isPremium) {
+    toast.error("You are not premium member!");
+    navigate("/");
+    return;
+  }
+
   const {
     title,
     // isPremium: premiumArticle,

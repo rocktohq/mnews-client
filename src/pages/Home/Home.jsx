@@ -7,6 +7,7 @@ import MembershipPlans from "../../components/Home/MembershipPlans/MembershipPla
 import TrendingArticles from "../../components/Home/TrendingArticles/TrendingArticles";
 import HeroSection from "../../components/Home/HeroSection/HeroSection";
 import Opinions from "../../components/Home/Opinions/Opinions";
+import LatestNews from "../../components/Home/Opinions/LatestNews/LatestNews";
 
 const Home = () => {
   return (
@@ -14,6 +15,9 @@ const Home = () => {
       <Helmet>
         <title>mNews | Home</title>
       </Helmet>
+
+      {/* Latest News */}
+      <LatestNews />
 
       {/* Hero Section */}
       <HeroSection />

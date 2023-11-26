@@ -19,8 +19,8 @@ const ArticleCard = ({ article }) => {
 
   return (
     <div
-      className={`p-5 shadow-md rounded-xl flex flex-col justify-between space-y-3 ${
-        premiumArticle && "border-2 border-secondary"
+      className={`p-5 border-2 hover:shadow-md rounded-xl flex flex-col justify-between space-y-3 ${
+        premiumArticle ? "border-secondary" : "border-base-300"
       }`}
     >
       <figure>

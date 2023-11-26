@@ -1,20 +1,45 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Container from "../../components/shared/Container";
 import { Helmet } from "react-helmet-async";
 import Title from "../../components/shared/Title";
 import ArticleCard from "../../components/shared/ArticleCard/ArticleCard";
 import Loader from "../../components/shared/Loader";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const PremiumArticles = () => {
   const axiosSecure = useAxiosSecure();
-  const { data: premiumArticles = [],isPending } = useQuery({
-    queryKey: ["premiumArticles"],
-    queryFn: async () => {
-      const res = await axiosSecure.get("/premium-articles");
-      return res.data;
-    },
-  });
+  const limit = 1;
+
+  // Data Fetching Function
+  const getArticles = async ({ pageParam = 0 }) => {
+    const res = await axiosSecure(
+      `/premium-articles?limit=${limit}&page=${pageParam}`
+    );
+    return { ...res.data, prevOffset: pageParam };
+  };
+
+  // Infinite Query [TanstackQuery]
+  const { data, fetchNextPage, hasNextPage, isPending, isLoading } =
+    useInfiniteQuery({
+      queryKey: ["articles"],
+      queryFn: getArticles,
+      getNextPageParam: (lastPage) => {
+        if (lastPage.prevOffset + limit > lastPage.articlesCount) {
+          return false;
+        }
+        return lastPage.prevOffset + limit;
+      },
+    });
+
+  // If Loading
+  if (isPending || isLoading) return <Loader />;
+
+  // Merging the Data
+  const articles = data?.pages.reduce((acc, page) => {
+    return [...acc, ...page.articles];
+  }, []);
+
   return (
     <Container className="py-10">
       <Helmet>
@@ -25,15 +50,20 @@ const PremiumArticles = () => {
         subHeading="Read Our Premium Articles"
         big
       />
-      {isPending && <Loader/>}
-      
-      {premiumArticles.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {premiumArticles.map((premiumArticle) => (
-            <ArticleCard key={premiumArticle._id} article={premiumArticle} />
-          ))}
-        </div>
-      )}
+      <InfiniteScroll
+        dataLength={articles ? articles.length : 0}
+        next={() => fetchNextPage()}
+        hasMore={hasNextPage}
+        loading={<div>Loading...☝️</div>}
+      >
+        {articles.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
+            {articles.map((article) => (
+              <ArticleCard key={article._id} article={article} />
+            ))}
+          </div>
+        )}
+      </InfiniteScroll>
     </Container>
   );
 };

@@ -18,7 +18,11 @@ const ArticleCard = ({ article }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="p-5 shadow-md rounded-xl flex flex-col justify-between space-y-3">
+    <div
+      className={`p-5 shadow-md rounded-xl flex flex-col justify-between space-y-3 ${
+        premiumArticle && "border-2 border-secondary"
+      }`}
+    >
       <figure>
         <img className="rounded-xl" src={image} />
       </figure>
@@ -30,7 +34,7 @@ const ArticleCard = ({ article }) => {
             onClick={() => navigate(`/articles/${_id}`)}
             className={`btn rounded-md ${
               premiumArticle && isPremium
-                ? "btn-primary"
+                ? "btn-secondary"
                 : premiumArticle && !isPremium
                 ? "btn-disabled"
                 : "btn-primary"

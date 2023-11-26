@@ -12,6 +12,7 @@ import UpdateProfile from "../pages/MyProfile/UpdateProfile";
 import ChangePassword from "../pages/MyProfile/ChangePassword";
 import PrivateRoute from "./PrivateRoute";
 import SingleArticle from "../pages/SingleArticle";
+import AddArticle from "../pages/User/AddArticle/AddArticle";
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +23,14 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "add-article",
+        element: (
+          <PrivateRoute>
+            <AddArticle />
+          </PrivateRoute>
+        ),
       },
       {
         path: "articles",

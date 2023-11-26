@@ -46,10 +46,10 @@ const ArticleCard = ({ article }) => {
       </div>
       <div className="p-5 border-1 border-t flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <img
+          {/* <img
             className="w-8 h-8 rounded-full object-cover"
             src={publisher?.logo}
-          />
+          /> */}
           <p className="text-neutral-500">{publisher?.name}</p>
         </div>
         <div className="flex items-center gap-2">

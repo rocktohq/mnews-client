@@ -2,7 +2,7 @@ import axios from "axios";
 import useAuth from "./useAuth";
 
 const axiosSecure = axios.create({
-  baseURL: "https://mnews-server.vercel.app/api",
+  baseURL: "http://localhost:5000/api",
   withCredentials: true,
 });
 

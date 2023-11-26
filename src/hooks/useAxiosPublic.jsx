@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosPublic = axios.create({
-  baseURL: "https://mnews-server.vercel.app/api",
+  baseURL: "http://localhost:5000/api",
 });
 
 const useAxiosPublic = () => {

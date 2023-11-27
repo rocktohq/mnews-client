@@ -7,10 +7,12 @@ import { Helmet } from "react-helmet-async";
 import Title from "../../components/shared/Title";
 import usePremium from "../../hooks/usePremium";
 import toast from "react-hot-toast";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const Article = () => {
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxiosPublic();
   const {
     data: article,
     isPending,
@@ -19,6 +21,9 @@ const Article = () => {
     queryKey: ["article"],
     queryFn: async () => {
       const res = await axiosSecure.get(`/articles/${id}`);
+      await axiosPublic.put(`/articles/counter/${id}`, {
+        views: res.data?.views + 1 || 1,
+      });
       return res.data;
     },
   });

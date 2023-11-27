@@ -6,13 +6,17 @@ import Articles from "../pages/Articles/Articles";
 import PremiumArticles from "../pages/PremiumArticles/PremiumArticles";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
-import MyProfile from "../pages/MyProfile/MyProfile";
-import ProfileInfo from "../pages/MyProfile/ProfileInfo";
-import UpdateProfile from "../pages/MyProfile/UpdateProfile";
-import ChangePassword from "../pages/MyProfile/ChangePassword";
 import PrivateRoute from "./PrivateRoute";
 import AddArticle from "../pages/User/AddArticle/AddArticle";
 import Article from "../pages/Article/Article";
+import MyProfile from "../pages/MyProfile/MyProfile";
+import MyArticles from "../pages/User/MyArticles/MyArticles";
+import UpdateArticle from "../pages/User/UpdateArticle/UpdateArticle";
+import AdminRoute from "./AdminRoute";
+import Dashboard from "../layout/Dashboard";
+import AdminHome from "../pages/Dashboard/AdminHome/AdminHome";
+import AllUsers from "../pages/Dashboard/AllUsers/AllUsers";
+import AllArticles from "../pages/Dashboard/AllArticles/AllArticles";
 
 export const router = createBrowserRouter([
   {
@@ -29,6 +33,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <AddArticle />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "update-article/:id",
+        element: (
+          <PrivateRoute>
+            <UpdateArticle />
           </PrivateRoute>
         ),
       },
@@ -57,26 +69,20 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/user",
+        path: "/my-profile",
         element: (
           <PrivateRoute>
             <MyProfile />
           </PrivateRoute>
         ),
-        children: [
-          {
-            path: "my-profile",
-            element: <ProfileInfo />,
-          },
-          {
-            path: "update-profile",
-            element: <UpdateProfile />,
-          },
-          {
-            path: "change-password",
-            element: <ChangePassword />,
-          },
-        ],
+      },
+      {
+        path: "/my-articles",
+        element: (
+          <PrivateRoute>
+            <MyArticles />
+          </PrivateRoute>
+        ),
       },
       {
         path: "login",
@@ -85,6 +91,38 @@ export const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+      },
+    ],
+  },
+  {
+    path: "dashboard",
+    element: (
+      <PrivateRoute>
+        <AdminRoute>
+          <Dashboard />
+        </AdminRoute>
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "/dashboard",
+        element: <AdminHome />,
+      },
+      {
+        path: "all-users",
+        element: <AllUsers />,
+      },
+      {
+        path: "all-articles",
+        element: <AllArticles />,
+      },
+      {
+        path: "all-publishers",
+        element: <AllArticles />,
+      },
+      {
+        path: "add-publisher",
+        element: <AllArticles />,
       },
     ],
   },

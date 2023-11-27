@@ -1,8 +1,8 @@
 import Marquee from "react-fast-marquee";
 import { Link } from "react-router-dom";
-import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
-import Container from "../../../shared/Container";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import Container from "../../shared/Container";
 
 const LatestNews = () => {
   const axiosPublic = useAxiosPublic();

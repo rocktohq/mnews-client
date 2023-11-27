@@ -1,101 +1,105 @@
-import { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import toast from "react-hot-toast";
-import { FaPlus } from "react-icons/fa";
 import Container from "../../../components/shared/Container";
-import useTags from "../../../hooks/useTags";
-import Select from "react-select";
-import usePublishers from "../../../hooks/usePublishers";
-import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
+import Loader from "../../../components/shared/Loader";
+import { useParams } from "react-router-dom";
+import { FaUpload } from "react-icons/fa";
+import usePublishers from "../../../hooks/usePublishers";
+import { useState } from "react";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import Select from "react-select";
+import useTags from "../../../hooks/useTags";
+import toast from "react-hot-toast";
 
 const imgbbApiKey = import.meta.env.VITE_IMGBB_API_KEY;
 const imgbbApiUrl = `https://api.imgbb.com/1/upload?key=${imgbbApiKey}`;
 
-const AddArticle = () => {
+const UpdateArticle = () => {
+  const { user } = useAuth();
   const { tagsManager } = useTags();
   const { publishers } = usePublishers();
   const [tags, setTags] = useState([]);
+
   const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
-  const { user } = useAuth();
+  const { id } = useParams();
 
-  const handleAddArticle = async (e) => {
+  const { data: singleArticle = [], isPending } = useQuery({
+    queryKey: ["updateArticle", id],
+    queryFn: async () => {
+      const res = await axiosSecure(`/articles/${id}`);
+      return res.data;
+    },
+  });
+
+  //   Update a single article
+  const handleUpdate = async (e) => {
     e.preventDefault();
-
     const form = e.target;
 
     const title = form.title.value;
     const allTags = [];
     tags.forEach((tag) => allTags.push(tag.value));
     const publisher = publishers.find(
-      (publisher) => publisher._id === form.publisher.value
+      (publisher) => publisher.name === form.publisher.value
     );
     const description = form.description.value;
-    const image = { image: form.image.files[0] };
+    const photo = { image: form.image.files[0] };
+    let image = "";
 
-    // console.log(publisher);
-    // Validations
-    if (title === "" && allTags.length === 0 && publisher === "" && description)
-      return toast.error("All fields are required");
-    else if (title === "") return toast.error("Article title is required");
-    else if (allTags.length === 0) return toast.error("Please select tags");
-    else if (publisher === "") return toast.error("Please select publisher");
-    else if (description === "")
-      return toast.error("Please provide description");
-
-    //   Try to Upload the Image
-    const toastId = toast.loading("Adding the article...");
+    const toastId = toast.loading("Article updating...");
     try {
-      const imgbbRes = await axiosPublic.post(imgbbApiUrl, image, {
-        headers: {
-          "content-type": "multipart/form-data",
-        },
-      });
-
-      if (imgbbRes.data.success) {
-        try {
-          const article = {
-            title,
-            image: imgbbRes.data.data.display_url,
-            description,
-            publisher: {
-              name: publisher.name,
-              logo: publisher.image,
-            },
-            tags: allTags,
-            author: {
-              name: user?.displayName,
-              email: user?.email,
-              photo: user?.photoURL,
-            },
-            views: 0,
-            status: "pending",
-          };
-
-          const res = await axiosSecure.post("/articles", article);
-          if (res.data.insertedId) {
-            toast.success("Article added successfully", { id: toastId });
-            form.reset();
-          }
-        } catch (error) {
-          toast.error(error.message, { id: toastId });
+      if (form.image.files.length) {
+        const imgbbRes = await axiosPublic.post(imgbbApiUrl, photo, {
+          headers: {
+            "content-type": "multipart/form-data",
+          },
+        });
+        if (imgbbRes.data.success) {
+          console.log("Image uploaded");
         }
+        image = imgbbRes.data.data.display_url;
+      } else {
+        image = singleArticle?.image;
+      }
+      const article = {
+        title,
+        image,
+        description,
+        publisher: {
+          name: publisher.name,
+          logo: publisher.image,
+        },
+        tags: allTags,
+        // status: "pending",
+      };
+      const res = await axiosSecure.put(
+        `/articles/${id}?email=${user?.email}`,
+        article
+      );
+
+      console.log(res.data);
+
+      if (res.data?.modifiedCount > 0) {
+        toast.success("Article updated successfully", { id: toastId });
+        form.reset();
       }
     } catch (error) {
-      toast.error(error.message, { id: toastId });
+      toast.error(error, { id: toastId });
     }
   };
-
+  if (isPending) return <Loader />;
+  console.log(tags);
   return (
     <Container>
       <Helmet>
-        <title>Add Article</title>
+        <title>Update Article</title>
       </Helmet>
       <section className="max-w-screen-sm mx-auto my-10">
         <form
-          onSubmit={handleAddArticle}
+          onSubmit={handleUpdate}
           encType="multipart/form-data"
           className="p-5 shadow-md rounded-md"
         >
@@ -111,6 +115,7 @@ const AddArticle = () => {
                 type="text"
                 name="title"
                 placeholder="Article Title"
+                defaultValue={singleArticle.title}
                 className="input input-bordered focus:outline-none w-full"
               />
             </div>
@@ -122,6 +127,9 @@ const AddArticle = () => {
                 options={tagsManager}
                 isMulti
                 name="tags"
+                defaultValue={singleArticle?.tags.map((tag) => {
+                  return { value: tag, label: tag };
+                })}
                 className="basic-multi-select"
                 classNamePrefix="Select Tags"
                 onChange={(chioce) => setTags(chioce)}
@@ -136,13 +144,13 @@ const AddArticle = () => {
               <select
                 name="publisher"
                 className="select select-bordered focus:outline-none w-full"
+                defaultValue={
+                  singleArticle?.publisher?.name || "Select Publisher"
+                }
               >
-                <option disabled selected value="">
-                  Select Publisher
-                </option>
                 {publishers.length > 0 &&
                   publishers.map((publisher) => (
-                    <option key={publisher._id} value={publisher._id}>
+                    <option key={publisher._id} value={publisher.name}>
                       {publisher.name}
                     </option>
                   ))}
@@ -169,12 +177,13 @@ const AddArticle = () => {
               name="description"
               className="textarea textarea-bordered h-24"
               placeholder="Write your article details here..."
+              defaultValue={singleArticle?.description}
             ></textarea>
           </div>
           <div className="form-control mt-6">
             <button className="btn btn-primary text-white">
-              <FaPlus />
-              Add Article
+              <FaUpload />
+              Update Article
             </button>
           </div>
         </form>
@@ -183,4 +192,4 @@ const AddArticle = () => {
   );
 };
 
-export default AddArticle;
+export default UpdateArticle;

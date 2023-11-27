@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { QueryClient, useInfiniteQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Container from "../../components/shared/Container";
 import { Helmet } from "react-helmet-async";
@@ -9,7 +9,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 const PremiumArticles = () => {
   const axiosSecure = useAxiosSecure();
-  const limit = 2;
+  const limit = 1;
 
   // Data Fetching Function
   const getArticles = async ({ pageParam = 0 }) => {
@@ -29,6 +29,9 @@ const PremiumArticles = () => {
           return false;
         }
         return lastPage.prevOffset + limit;
+      },
+      onSettled: () => {
+        QueryClient.invalidateQueries(["premiumArticles"]);
       },
     });
 

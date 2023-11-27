@@ -126,7 +126,7 @@ const Navbar = () => {
         <div className="navbar-end space-x-2">
           {user?.email ? (
             <>
-              <Link to="/user/my-profile">
+              <Link to="/my-profile">
                 <img className="h-10 w-10 rounded-full" src={user.photoURL} />
               </Link>
               <button

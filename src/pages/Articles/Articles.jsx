@@ -3,7 +3,7 @@ import Container from "../../components/shared/Container";
 import Title from "../../components/shared/Title";
 import Loader from "../../components/shared/Loader";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { QueryClient, useInfiniteQuery } from "@tanstack/react-query";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ArticleCard from "../../components/shared/ArticleCard/ArticleCard";
 
@@ -29,6 +29,10 @@ const Articles = () => {
         }
         return lastPage.prevOffset + limit;
       },
+      onSettled: () => {
+        QueryClient.invalidateQueries(["articles"]);
+        QueryClient.clear();
+      },
     });
 
   // If Loading
@@ -49,7 +53,8 @@ const Articles = () => {
         dataLength={articles ? articles.length : 0}
         next={() => fetchNextPage()}
         hasMore={hasNextPage}
-        loading={<div>Loading...☝️</div>}
+        loader={<div className="text-center my-5">Loading...</div>}
+        endMessage={<div className="text-center my-5">No more data</div>}
       >
         {articles.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">

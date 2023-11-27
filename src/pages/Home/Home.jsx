@@ -7,7 +7,7 @@ import MembershipPlans from "../../components/Home/MembershipPlans/MembershipPla
 import TrendingArticles from "../../components/Home/TrendingArticles/TrendingArticles";
 import HeroSection from "../../components/Home/HeroSection/HeroSection";
 import Opinions from "../../components/Home/Opinions/Opinions";
-import LatestNews from "../../components/Home/Opinions/LatestNews/LatestNews";
+import LatestNews from "../../components/Home/LatestNews/LatestNews";
 
 const Home = () => {
   return (

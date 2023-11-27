@@ -3,6 +3,7 @@ import { articleSlicer } from "../../../utils/utils";
 import usePremium from "../../../hooks/usePremium";
 import { useNavigate } from "react-router-dom";
 import { IoMdEye } from "react-icons/io";
+import { PiCrownFill } from "react-icons/pi";
 
 const ArticleCard = ({ article }) => {
   const {
@@ -23,8 +24,14 @@ const ArticleCard = ({ article }) => {
         premiumArticle ? "border-secondary" : "border-base-300"
       }`}
     >
-      <figure>
+      <figure className="relative">
         <img className="rounded-xl" src={image} />
+        {article.isPremium && (
+          <div className="absolute px-3 py-1 bg-black opacity-90 text-white font-bold top-1 left-1 flex items-center gap-2">
+            <PiCrownFill className="text-orange-500" />
+            Premium
+          </div>
+        )}
       </figure>
       <div>
         <h2>{title}</h2>

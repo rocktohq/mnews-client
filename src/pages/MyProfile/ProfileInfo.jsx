@@ -1,9 +1,11 @@
+import useAdmin from "../../hooks/useAdmin";
 import useAuth from "../../hooks/useAuth";
 import usePremium from "../../hooks/usePremium";
 
 const ProfileInfo = () => {
   const { user } = useAuth();
   const { isPremium } = usePremium();
+  const { isAdmin } = useAdmin();
 
   return (
     <div className="flex gap-5 items-center p-5 shadow-md rounded-xl">
@@ -19,12 +21,16 @@ const ProfileInfo = () => {
           Email: <span>{user?.email}</span>
         </p>
         <p>
-          {isPremium ? (
+          {isAdmin ? (
+            <span className="text-white bg-red-600 px-3 py-1">Admin</span>
+          ) : isPremium ? (
             <span className="text-white bg-orange-600 px-3 py-1">
               Premium Member
             </span>
           ) : (
-            <span className="to-base-300">Normal User</span>
+            <span className="text-white bg-slate-500 px-3 py-1">
+              Normal User
+            </span>
           )}
         </p>
       </div>

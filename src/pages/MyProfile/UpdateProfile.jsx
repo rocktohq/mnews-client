@@ -36,8 +36,10 @@ const UpdateProfile = () => {
       if (imgbbRes.data.success) {
         try {
           await updateUserProfile(name, imgbbRes.data.data.display_url);
-          const user = { name };
-          await axiosSecure.put(`/users/${user._id}`, user);
+          await axiosSecure.put(`/users/${user?.email}`, {
+            name,
+            photo: imgbbRes.data.data.display_url,
+          });
 
           toast.success("Profile updated", { id: toastId });
           // navigate("/my-profile");

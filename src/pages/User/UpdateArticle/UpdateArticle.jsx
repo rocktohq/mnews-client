@@ -58,7 +58,7 @@ const UpdateArticle = () => {
           },
         });
         if (imgbbRes.data.success) {
-          console.log("Image uploaded");
+          // console.log("Image uploaded");
         }
         image = imgbbRes.data.data.display_url;
       } else {

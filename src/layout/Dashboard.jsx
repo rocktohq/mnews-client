@@ -1,11 +1,11 @@
-import Container from "../components/shared/Container";
+// import Container from "../components/shared/Container";
 import { Outlet } from "react-router-dom";
 import Drawer from "../components/Drawer/Drawer";
 import { FaHamburger } from "react-icons/fa";
 
 const Dashboard = () => {
   return (
-    <Container>
+    // <Container>
       <div className="drawer lg:drawer-open">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content lg:space-x-5">
@@ -24,7 +24,7 @@ const Dashboard = () => {
         </div>
         <Drawer />
       </div>
-    </Container>
+    // </Container>
   );
 };
 

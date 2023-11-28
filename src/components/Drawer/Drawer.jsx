@@ -1,6 +1,6 @@
 import { LuLogOut } from "react-icons/lu";
 import { FaBook, FaGalacticRepublic, FaUsers } from "react-icons/fa6";
-import { FaHome } from "react-icons/fa";
+import { FaHome, FaPlus } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
@@ -49,7 +49,7 @@ const Drawer = () => {
         </li>
         <li>
           <NavLink to="/dashboard/add-publisher">
-            <FaGalacticRepublic />
+            <FaPlus />
             Add Publisher
           </NavLink>
         </li>
@@ -62,7 +62,7 @@ const Drawer = () => {
         </li>
         <li>
           <button onClick={handleLogOut}>
-            <LuLogOut color="white" /> Log Out
+            <LuLogOut /> Log Out
           </button>
         </li>
       </ul>

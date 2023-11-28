@@ -21,7 +21,7 @@ const MyArticles = () => {
   } = useQuery({
     queryKey: ["myArticles"],
     queryFn: async () => {
-      const res = await axiosSecure(`/my-articles?email=${user?.email}`);
+      const res = await axiosSecure.get(`/my-articles?email=${user?.email}`);
       return res.data;
     },
   });

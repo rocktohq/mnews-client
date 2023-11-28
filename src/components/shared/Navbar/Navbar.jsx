@@ -63,18 +63,18 @@ const Navbar = () => {
           </li>
         </>
       )}
-      {isAdmin || isPremium ? (
-        ""
-      ) : (
-        <li>
-          <NavLink
-            className="hover:text-primary hover:underline duration-300"
-            to="/subscriptions"
-          >
-            Subscriptions
-          </NavLink>
-        </li>
-      )}
+      {isAdmin || isPremium
+        ? ""
+        : user?.email && (
+            <li>
+              <NavLink
+                className="hover:text-primary hover:underline duration-300"
+                to="/subscriptions"
+              >
+                Subscriptions
+              </NavLink>
+            </li>
+          )}
       {isPremium && (
         <li>
           <NavLink

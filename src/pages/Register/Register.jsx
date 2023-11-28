@@ -78,7 +78,7 @@ const Login = () => {
           await signUpUser(email, password);
           await updateUserProfile(name, imgbbRes.data.data.display_url);
 
-          const user = { name, email };
+          const user = { name, email, photo: imgbbRes.data.data.display_url };
 
           const userRes = await axiosPublic.post("/users", user);
           if (!userRes.data.insertedId) {
@@ -105,11 +105,6 @@ const Login = () => {
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <div className="text-center">
-            <h1 className="text-5xl font-bold">Register now!</h1>
-            <p className="my-5">
-              Please login to get access of unlimited features of our eManage
-              website.
-            </p>
             <figure className="hidden lg:block">
               <img className="w-3/6 mx-auto rounded-2xl" src="" alt="Login" />
             </figure>

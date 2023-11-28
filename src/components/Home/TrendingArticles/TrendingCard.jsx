@@ -6,7 +6,7 @@ import { articleSlicer } from "../../../utils/utils";
 
 const TrendingCard = ({ article }) => {
   return (
-    <div className="border-2 rounded-md hover:shadow-md duration-200 bg-base-100 flex flex-col justify-between h-[550px] mx-5">
+    <div className="border-2 rounded-md hover:shadow-md duration-200 bg-base-100 flex flex-col justify-between h-[550px] mx-2">
       <figure className="relative">
         <img className="rounded-t-md" src={article?.image} />
         {article.isPremium && (

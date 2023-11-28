@@ -3,7 +3,7 @@ import Rating from "react-rating";
 
 const OpinionCard = ({ review }) => {
   return (
-    <div className="border-2 rounded-md hover:shadow-md duration-200 bg-base-100 h-[250px] p-3 flex flex-col justify-between">
+    <div className="border-2 rounded-md hover:shadow-md duration-200 bg-base-100 h-[350px] p-3 flex flex-col justify-between mx-2">
       <div className="flex justify-between">
         <div className="space-y-3">
           <img

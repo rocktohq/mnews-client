@@ -4,6 +4,7 @@ import { LuLogIn, LuLogOut, LuUserPlus } from "react-icons/lu";
 import useAuth from "../../../hooks/useAuth";
 import useAdmin from "../../../hooks/useAdmin";
 import usePremium from "../../../hooks/usePremium";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const { user, signOutUser } = useAuth();
@@ -12,6 +13,7 @@ const Navbar = () => {
 
   const handleLogOut = async () => {
     await signOutUser();
+    toast.success("User logged out");
   };
   const navLinks = (
     <>

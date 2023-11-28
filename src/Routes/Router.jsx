@@ -19,6 +19,7 @@ import AllUsers from "../pages/Dashboard/AllUsers/AllUsers";
 import AllArticles from "../pages/Dashboard/AllArticles/AllArticles";
 import AddPublisher from "../pages/Dashboard/AddPublisher/AddPublisher";
 import AllPublishers from "../pages/Dashboard/AllPublishers/AllPublishers";
+import Subscription from "../pages/Subscription/Subscription";
 
 export const router = createBrowserRouter([
   {
@@ -52,17 +53,21 @@ export const router = createBrowserRouter([
       },
       {
         path: "/articles/:id",
-        element: (
-          <PrivateRoute>
-            <Article />
-          </PrivateRoute>
-        ),
+        element: <Article />,
       },
       {
         path: "premium-articles",
         element: (
           <PrivateRoute>
             <PremiumArticles />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "subscription",
+        element: (
+          <PrivateRoute>
+            <Subscription />
           </PrivateRoute>
         ),
       },

@@ -2,26 +2,34 @@ import { Helmet } from "react-helmet-async";
 import Container from "../../components/shared/Container";
 import Title from "../../components/shared/Title";
 import Loader from "../../components/shared/Loader";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { QueryClient, useInfiniteQuery } from "@tanstack/react-query";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ArticleCard from "../../components/shared/ArticleCard/ArticleCard";
+import { useState } from "react";
+import SearchFilter from "./SearchFilter";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const Articles = () => {
-  const axiosSecure = useAxiosSecure();
-  // Limit [Koyta Data Show Korte Chan]
-  const limit = 2;
+  const axiosPublic = useAxiosPublic();
+  const [search, setSearch] = useState("");
+  const [publisher, setPublisher] = useState("");
+  const [tag, setTag] = useState("");
 
+  // Limit [Koyta Data Show Korte Chan]
+  const limit = 4;
   // Data Fetching Function
   const getArticles = async ({ pageParam = 0 }) => {
-    const res = await axiosSecure(`/articles?limit=${limit}&page=${pageParam}`);
+    const res = await axiosPublic(
+      `/articles?limit=${limit}&offset=${pageParam}&search=${search}&publisher=${publisher}&tag=${tag}`
+    );
+
     return { ...res.data, prevOffset: pageParam };
   };
 
   // Infinite Query [TanstackQuery]
   const { data, fetchNextPage, hasNextPage, isPending, isLoading } =
     useInfiniteQuery({
-      queryKey: ["articles"],
+      queryKey: ["articles", search, publisher, tag],
       queryFn: getArticles,
       getNextPageParam: (lastPage) => {
         if (lastPage.prevOffset + limit > lastPage.articlesCount) {
@@ -30,7 +38,7 @@ const Articles = () => {
         return lastPage.prevOffset + limit;
       },
       onSettled: () => {
-        QueryClient.invalidateQueries(["articles"]);
+        QueryClient.invalidateQueries(["articles", search, publisher, tag]);
         QueryClient.clear();
       },
     });
@@ -43,12 +51,20 @@ const Articles = () => {
     return [...acc, ...page.articles];
   }, []);
 
+  // console.log(search, publisher, tag);
+  // console.log(data);
+
   return (
     <Container className="py-10">
       <Helmet>
         <title>mNews | All Articles</title>
       </Helmet>
       <Title heading={"All Articles"} subHeading="Read All Articles" big />
+      <SearchFilter
+        setSearch={setSearch}
+        setPublisher={setPublisher}
+        setTag={setTag}
+      />
       <InfiniteScroll
         dataLength={articles ? articles.length : 0}
         next={() => fetchNextPage()}

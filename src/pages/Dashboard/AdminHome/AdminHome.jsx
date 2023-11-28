@@ -4,6 +4,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Loader from "../../../components/shared/Loader";
 import Title from "../../../components/shared/Title";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import { Helmet } from "react-helmet-async";
 
 const AdminHome = () => {
   const axiosSecure = useAxiosSecure();
@@ -29,6 +30,9 @@ const AdminHome = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>Admin Dashboard</title>
+      </Helmet>
       <Title heading="Publishers Statistics" big center />
       <div className="max-w-md mx-auto overflow-hidden mt-5">
         <Chart

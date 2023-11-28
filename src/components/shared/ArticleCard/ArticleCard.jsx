@@ -14,6 +14,8 @@ const ArticleCard = ({ article }) => {
     description,
     publisher,
     views,
+    tags,
+    dateAdded,
   } = article;
   const { isPremium } = usePremium();
   const navigate = useNavigate();
@@ -25,7 +27,7 @@ const ArticleCard = ({ article }) => {
       }`}
     >
       <figure className="relative">
-        <img className="rounded-xl" src={image} />
+        <img className="rounded-xl w-full h-80 object-cover" src={image} />
         {article.isPremium && (
           <div className="absolute px-3 py-1 bg-black opacity-90 text-white font-bold top-1 left-1 flex items-center gap-2">
             <PiCrownFill className="text-orange-500" />
@@ -33,8 +35,8 @@ const ArticleCard = ({ article }) => {
           </div>
         )}
       </figure>
-      <div>
-        <h2>{title}</h2>
+      <div className="space-y-3">
+        <h2 className="text-xl font-semibold">{title}</h2>
         <p>
           {articleSlicer(description)} &nbsp;{" "}
           <button
@@ -50,8 +52,12 @@ const ArticleCard = ({ article }) => {
             View Full Article
           </button>
         </p>
+        <p className="px-4 py-2 bg-slate-100 rounded">
+          <span className="font-semibold">Tags: </span>{" "}
+          {tags.map((tag) => tag).join(", ")}
+        </p>
       </div>
-      <div className="p-5 border-1 border-t flex justify-between items-center">
+      <div className="py-3 border-1 border-t flex justify-between items-center">
         <div className="flex items-center gap-2">
           <img
             className="w-8 h-8 rounded-full object-cover"
@@ -59,6 +65,7 @@ const ArticleCard = ({ article }) => {
           />
           <p className="text-neutral-500">{publisher?.name}</p>
         </div>
+        <p>{dateAdded && dateAdded}</p>
         <div className="flex items-center gap-2">
           <IoMdEye size={26} />
           <p className="text-neutral-500">{views}</p>

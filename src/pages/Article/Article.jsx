@@ -1,24 +1,23 @@
-import { useNavigate, useParams } from "react-router-dom";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import Container from "../../components/shared/Container";
 import Loader from "../../components/shared/Loader";
 import { Helmet } from "react-helmet-async";
 import Title from "../../components/shared/Title";
-import usePremium from "../../hooks/usePremium";
-import toast from "react-hot-toast";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import { useParams } from "react-router-dom";
 
 const Article = () => {
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
   const axiosPublic = useAxiosPublic();
+
   const {
     data: article,
     isPending,
     isLoading,
   } = useQuery({
-    queryKey: ["article"],
+    queryKey: ["article", id],
     queryFn: async () => {
       const res = await axiosSecure.get(`/articles/${id}`);
       await axiosPublic.put(`/articles/counter/${id}`, {
@@ -28,15 +27,7 @@ const Article = () => {
     },
   });
 
-  const { isPremium } = usePremium();
-  const navigate = useNavigate();
-
   if (isPending || isLoading) return <Loader />;
-  if (article.isPremium && !isPremium) {
-    toast.error("You are not premium member!");
-    navigate("/");
-    return;
-  }
 
   const {
     title,
@@ -46,6 +37,7 @@ const Article = () => {
     description,
     publisher,
     author,
+    dateAdded,
   } = article;
 
   return (
@@ -65,6 +57,7 @@ const Article = () => {
           <div className="md:col-span-2 shadow-xl rounded-md p-5 space-y-5">
             <Title heading={title} />
             <p>{description}</p>
+            <p>Added on: {dateAdded && dateAdded}</p>
             <p className="px-4 py-2 bg-slate-50">
               <span className="font-semibold">Tags: </span>{" "}
               {tags.map((tag) => tag).join(", ")}

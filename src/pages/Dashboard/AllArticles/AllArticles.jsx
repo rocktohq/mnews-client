@@ -6,18 +6,29 @@ import toast from "react-hot-toast";
 import { FaDollarSign, FaMinus, FaPlus, FaTrashAlt } from "react-icons/fa";
 import { Helmet } from "react-helmet-async";
 import Title from "../../../components/shared/Title";
+import { useState } from "react";
 
 const AllArticles = () => {
   const axiosSecure = useAxiosSecure();
+  const [declineId, setDeclineId] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [count, setCount] = useState(0);
+  const numberOfPages = Math.ceil(count / itemsPerPage);
+  const pages = [...Array(numberOfPages).keys()];
+
   const {
     data: allArticles = [],
     isPending,
     refetch,
   } = useQuery({
-    queryKey: ["allArticles"],
+    queryKey: ["allArticles", currentPage, itemsPerPage],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/admin/articles`);
-      return res.data;
+      const res = await axiosSecure.get(
+        `/admin/articles?page=${currentPage}&size=${itemsPerPage}`
+      );
+      setCount(res.data.articleCount);
+      return res.data.articles;
     },
   });
 
@@ -59,6 +70,55 @@ const AllArticles = () => {
       toast.error("Something went wrong!", { id: toastId });
       console.log(err.message);
     }
+  };
+
+  // Pagination
+  const handleItemsPerPage = (e) => {
+    const val = parseInt(e.target.value);
+    setItemsPerPage(val);
+    setCurrentPage(0);
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < pages.length - 1) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  // Handle Modal
+  const handleModal = (id) => {
+    setDeclineId(id);
+    document.getElementById("my_modal_5").showModal();
+  };
+
+  // Decline
+  const handleDecline = async (e, reason) => {
+    e.preventDefault();
+    // console.log(reason, declineId);
+    const toastId = toast.loading("Declinig article...");
+    try {
+      const res = await axiosSecure.put(`/admin/articles/${declineId}`, {
+        status: "rejected",
+        reason,
+      });
+
+      if (res.data.modifiedCount > 0) {
+        toast.success("Article declined!", { id: toastId });
+        refetch();
+      }
+    } catch (err) {
+      toast.error("Something went wrong!", { id: toastId });
+      console.log(err.message);
+    }
+
+    document.getElementById("my_modal_5").close();
+    e.target.reset();
   };
 
   // Delete
@@ -130,45 +190,107 @@ const AllArticles = () => {
                       </div>
                     </div>
                   </td>
-                  <td>Date</td>
+                  <td>{article?.dateAdded && article?.dateAdded}</td>
                   <td>{article?.status}</td>
                   <td>{article?.publisher?.name}</td>
-                  <td className="w-fit">
-                    <button
-                      onClick={() => handleMakePremium(article._id)}
-                      className="btn btn-ghost"
-                    >
-                      <FaDollarSign className="text-success" size={18} /> Make
-                      Premium
-                    </button>
-                    <button
-                      onClick={() =>
-                        handleStatusChange("published", article._id)
-                      }
-                      className="btn btn-ghost"
-                    >
-                      <FaPlus className="text-success" size={18} /> Approve
-                    </button>
-                    <button
-                      onClick={() =>
-                        handleStatusChange("rejected", article._id)
-                      }
-                      className="btn btn-ghost"
-                    >
-                      <FaMinus className="text-warning" size={18} /> Decline
-                    </button>
-                    <button
-                      onClick={() => handleDelete(article._id)}
-                      className="btn btn-ghost"
-                    >
-                      <FaTrashAlt className="text-error" size={18} /> Delete
-                    </button>
+                  <td>
+                    <td>
+                      <button
+                        onClick={() => handleMakePremium(article._id)}
+                        className="btn btn-ghost"
+                      >
+                        <FaDollarSign className="text-success" size={18} /> Make
+                        Premium
+                      </button>
+                    </td>
+                    <td>
+                      <button
+                        onClick={() =>
+                          handleStatusChange("published", article._id)
+                        }
+                        className="btn btn-ghost"
+                      >
+                        <FaPlus className="text-success" size={18} /> Approve
+                      </button>
+                    </td>
+                    <td>
+                      <button
+                        onClick={() => handleModal(article._id)}
+                        className="btn btn-ghost"
+                      >
+                        <FaMinus className="text-warning" size={18} /> Decline
+                      </button>
+                    </td>
+                    <td>
+                      <button
+                        onClick={() => handleDelete(article._id)}
+                        className="btn btn-ghost"
+                      >
+                        <FaTrashAlt className="text-error" size={18} /> Delete
+                      </button>
+                    </td>
                   </td>
                 </tr>
               ))}
           </tbody>
         </table>
       </div>
+      <div className="p-5 shadow w-fit rounded-xl mt-10">
+        <p className="mb-3">
+          Current Page: <span className="font-semibold">{currentPage + 1}</span>{" "}
+        </p>
+        <div className="space-x-3">
+          <button onClick={handlePrevPage}>Prev</button>
+          {pages.map((page) => (
+            <button
+              className={`${
+                currentPage === page ? "btn-secondary" : "btn-primary"
+              } btn btn-sm rounded`}
+              onClick={() => setCurrentPage(page)}
+              key={page}
+            >
+              {page + 1}
+            </button>
+          ))}
+          <button onClick={handleNextPage}>Next</button>
+          <select
+            value={itemsPerPage}
+            onChange={handleItemsPerPage}
+            name=""
+            id=""
+            className="border px-3 py-2 rounded"
+          >
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+          </select>
+        </div>
+      </div>
+      {/* Modal */}
+      <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Write down the reason</h3>
+          <form
+            onSubmit={(e) => {
+              handleDecline(e, e.target.reason.value);
+            }}
+          >
+            <textarea
+              name="reason"
+              className="textarea textarea-bordered w-full focus:outline-none"
+            ></textarea>
+            <div className="modal-action">
+              <button className="btn btn-primary">Decline</button>
+              <span
+                onClick={() => document.getElementById("my_modal_5").close()}
+                className="btn"
+              >
+                Close
+              </span>
+            </div>
+          </form>
+        </div>
+      </dialog>
     </div>
   );
 };

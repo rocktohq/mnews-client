@@ -14,7 +14,7 @@ const PremiumArticles = () => {
   // Data Fetching Function
   const getArticles = async ({ pageParam = 0 }) => {
     const res = await axiosSecure(
-      `/premium-articles?limit=${limit}&page=${pageParam}`
+      `/premium-articles?limit=${limit}&offset=${pageParam}`
     );
     return { ...res.data, prevOffset: pageParam };
   };

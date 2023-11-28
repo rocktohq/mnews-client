@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import Lottie from "lottie-react";
+import state from "../../assets/animation/stateChange.json";
 
 // Imgbb API
 const imgbbApiKey = import.meta.env.VITE_IMGBB_API_KEY;
@@ -103,13 +105,15 @@ const Login = () => {
         <title>mNews | Register</title>
       </Helmet>
       <div className="hero min-h-screen bg-base-200">
-        <div className="hero-content flex-col lg:flex-row-reverse">
-          <div className="text-center">
-            <figure className="hidden lg:block">
-              <img className="w-3/6 mx-auto rounded-2xl" src="" alt="Login" />
-            </figure>
+        <div className="hero-content flex-col md:flex-row-reverse">
+          <div className="hidden md:flex w-full max-w-md">
+            <Lottie
+              animationData={state}
+              loop={false}
+              className="object-contain"
+            />
           </div>
-          <div className="card flex-shrink-0 w-full max-w-lg shadow-2xl bg-base-100">
+          <div className="card flex-shrink-0 w-72 md:w-[360px] lg:w-[500px] shadow-2xl bg-base-100">
             <form
               onSubmit={handleRegister}
               encType="multipart/form-data"

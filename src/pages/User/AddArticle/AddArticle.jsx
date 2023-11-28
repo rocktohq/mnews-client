@@ -72,6 +72,7 @@ const AddArticle = () => {
             },
             views: 0,
             status: "pending",
+            dateAdded: new Date().toJSON().slice(0, 10),
           };
 
           const res = await axiosSecure.post("/articles", article);

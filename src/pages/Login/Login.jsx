@@ -4,6 +4,8 @@ import { LuLogIn } from "react-icons/lu";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
+import Lottie from "lottie-react";
+import state from "../../assets/animation/stateChange.json";
 
 const Login = () => {
   const { signInUser, googleSignIn } = useAuth();
@@ -51,18 +53,15 @@ const Login = () => {
         <title>mNews | Login</title>
       </Helmet>
       <div className="hero min-h-screen bg-base-200">
-        <div className="hero-content flex-col lg:flex-row-reverse">
-          <div className="text-center">
-            <h1 className="text-5xl font-bold">Login now!</h1>
-            <p className="my-5">
-              Please login to get access of unlimited features of our eManage
-              website.
-            </p>
-            <figure className="hidden lg:block">
-              <img className="w-3/6 mx-auto rounded-2xl" src="" alt="Login" />
-            </figure>
+        <div className="hero-content flex-col md:flex-row-reverse">
+          <div className="hidden md:flex w-full max-w-md">
+            <Lottie
+              animationData={state}
+              loop={false}
+              className="object-contain"
+            />
           </div>
-          <div className="card flex-shrink-0 w-full max-w-lg shadow-2xl bg-base-100">
+          <div className="card flex-shrink-0 w-full max-w-md shadow-2xl bg-base-100">
             <form onSubmit={handleLogin} className="card-body pb-0">
               <p className="divider">User Login</p>
               <div className="form-control">

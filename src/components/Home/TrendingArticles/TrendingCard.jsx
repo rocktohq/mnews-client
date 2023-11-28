@@ -8,7 +8,7 @@ const TrendingCard = ({ article }) => {
   return (
     <div className="border-2 rounded-md hover:shadow-md duration-200 bg-base-100 flex flex-col justify-between h-[550px] mx-2">
       <figure className="relative">
-        <img className="rounded-t-md" src={article?.image} />
+        <img className="rounded-t-md w-full object-cover h-60" src={article?.image} />
         {article.isPremium && (
           <div className="absolute px-3 py-1 bg-black opacity-90 text-white font-bold top-1 left-1 flex items-center gap-2">
             <PiCrownFill className="text-orange-500" />

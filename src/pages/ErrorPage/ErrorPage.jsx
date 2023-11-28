@@ -13,10 +13,10 @@ const ErrorPage = () => {
         <title>404</title>
       </Helmet>
       <div className="flex flex-col justify-center items-center">
-        <div className="h-3/4">
+        <div className="max-w-md mx-auto">
           <Lottie animationData={notFound} loop={false} />
         </div>
-        <div className="">
+        <div className="mt-5 space-x-5">
           <button
             onClick={() => navigate(-1)}
             className="rounded btn btn-outline btn-primary"

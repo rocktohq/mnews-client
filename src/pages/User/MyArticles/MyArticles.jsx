@@ -9,10 +9,12 @@ import { Link } from "react-router-dom";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
+import { useState } from "react";
 
 const MyArticles = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const [reason, setReason] = useState("");
 
   const {
     data: myArticles = [],
@@ -27,6 +29,11 @@ const MyArticles = () => {
   });
 
   if (isPending) return <Loader />;
+
+  const handleShowReason = (message) => {
+    setReason(message);
+    document.getElementById("my_modal_5").showModal();
+  };
 
   const handleDelete = async (id) => {
     Swal.fire({
@@ -57,21 +64,22 @@ const MyArticles = () => {
       </Helmet>
       <Title heading="My Articles" />
       <div className="overflow-x-auto mt-5">
-        <table className="table w-full">
-          {/* head */}
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Image</th>
-              <th>Article Title</th>
-              <th>Status</th>
-              <th>Premium</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {myArticles.length > 0 &&
-              myArticles.map((article, index) => (
+        {myArticles.length > 0 ? (
+          <table className="table w-full">
+            {/* head */}
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Image</th>
+                <th>Article Title</th>
+                <th>Show Details</th>
+                <th>Status</th>
+                <th>isPremium</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {myArticles.map((article, index) => (
                 <tr key={article._id}>
                   <td>{index + 1}</td>
                   <td>
@@ -87,7 +95,26 @@ const MyArticles = () => {
                     </div>
                   </td>
                   <td>{article.title}</td>
-                  <td className="font-medium">{article.status}</td>
+                  <td>
+                    <Link to={`/articles/${article._id}`}>
+                      <button className="btn btn-ghost">Show Article</button>
+                    </Link>
+                  </td>
+                  <td className="font-medium">
+                    {article.status === "rejected" ? (
+                      <>
+                        <span className="mr-2">Rejected</span>
+                        <span
+                          onClick={() => handleShowReason(article?.reason)}
+                          className="btn"
+                        >
+                          View Reson
+                        </span>
+                      </>
+                    ) : (
+                      article.status
+                    )}
+                  </td>
                   <td>{article.isPremium ? "Yes" : "No"}</td>
                   <td>
                     <Link to={`/update-article/${article._id}`}>
@@ -104,9 +131,27 @@ const MyArticles = () => {
                   </td>
                 </tr>
               ))}
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        ) : (
+          <p className="text-xl font-bold text-center my-5">
+            Your do not have any article
+          </p>
+        )}
       </div>
+      {/* Modal */}
+      <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Rejection reason</h3>
+          <p className="py-4">{reason && reason}</p>
+          <div className="modal-action">
+            <form method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </Container>
   );
 };

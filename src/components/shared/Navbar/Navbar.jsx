@@ -69,9 +69,9 @@ const Navbar = () => {
             <li>
               <NavLink
                 className="hover:text-primary hover:underline duration-300"
-                to="/subscriptions"
+                to="/subscription"
               >
-                Subscriptions
+                Subscription
               </NavLink>
             </li>
           )}

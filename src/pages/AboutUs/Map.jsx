@@ -6,7 +6,7 @@ import L from "leaflet";
 
 const Map = () => {
   const state = {
-    center: [23.8041, 90.4152],
+    center: [23.8311, 90.4243],
     zoom: 13,
   };
 

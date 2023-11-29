@@ -5,11 +5,40 @@ import useAuth from "../../../hooks/useAuth";
 import useAdmin from "../../../hooks/useAdmin";
 import usePremium from "../../../hooks/usePremium";
 import toast from "react-hot-toast";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useEffect } from "react";
 
 const Navbar = () => {
   const { user, signOutUser } = useAuth();
   const { isAdmin } = useAdmin();
-  const { isPremium } = usePremium();
+  const { isPremium, duration, startTime, refetch } = usePremium();
+  const axiosSecure = useAxiosSecure();
+
+  useEffect(() => {
+    if (isPremium) {
+      const endTime = startTime + duration * 1000;
+      const now = Date.now();
+      const remainingTime = endTime - now;
+
+      const clearTimer = setTimeout(() => {
+        const updatedUser = {
+          isPremium: false,
+          duration: 0,
+          startTime: 0,
+        };
+
+        axiosSecure
+          .put(`/remove-premium/${user?.email}`, updatedUser)
+          .then((res) => {
+            if (res.data.modifiedCount > 0) {
+              console.log("Premium subscription expired!");
+              refetch();
+            }
+          });
+      }, remainingTime);
+      return () => clearTimeout(clearTimer);
+    }
+  }, [isPremium, duration, startTime, refetch, axiosSecure, user?.email]);
 
   const handleLogOut = async () => {
     await signOutUser();

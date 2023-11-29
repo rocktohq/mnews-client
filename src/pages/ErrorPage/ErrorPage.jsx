@@ -12,7 +12,7 @@ const ErrorPage = () => {
       <Helmet>
         <title>404</title>
       </Helmet>
-      <div className="flex flex-col justify-center items-center">
+      <div className="flex flex-col justify-center items-center h-screen">
         <div className="max-w-md mx-auto">
           <Lottie animationData={notFound} loop={false} />
         </div>

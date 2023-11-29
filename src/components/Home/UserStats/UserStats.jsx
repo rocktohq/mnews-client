@@ -5,7 +5,7 @@ import { TbUsersGroup } from "react-icons/tb";
 import Title from "../../shared/Title";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
-import Loader from "../../shared/Loader";
+// import Loader from "../../shared/Loader";
 import ScrollTrigger from "react-scroll-trigger";
 import { useState } from "react";
 
@@ -14,8 +14,8 @@ const UserStats = () => {
   const [countStart, setCountStart] = useState(false);
   const {
     data: stats = {},
-    isPending,
-    isLoading,
+    // isPending,
+    // isLoading,
   } = useQuery({
     queryKey: ["userCounts"],
     queryFn: async () => {
@@ -25,14 +25,14 @@ const UserStats = () => {
   });
 
   return (
-    <Container className="py-20">
+    <Container className={`py-10`}>
       <Title
         heading="Our user statistics"
         subHeading="Valuable Users"
         big
         center
       />
-      {isPending || (isLoading && <Loader />)}
+      {/* {isPending || (isLoading && <Loader />)} */}
 
       <ScrollTrigger onEnter={() => setCountStart(true)}>
         {countStart && (

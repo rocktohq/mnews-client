@@ -68,7 +68,7 @@ const TrendingArticles = () => {
       {isPending && <Loader />}
 
       {trendingArticles.length > 0 && (
-        <div className="mt-5">
+        <div className="mt-5 overflow-hidden">
           <Slider {...settings}>
             {trendingArticles.map((trendingArticle) => (
               <TrendingCard

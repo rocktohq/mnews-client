@@ -104,16 +104,25 @@ const Navbar = () => {
               </NavLink>
             </li>
           )}
-      {isPremium && (
-        <li>
-          <NavLink
-            className="hover:text-primary hover:underline duration-300"
-            to="/premium-articles"
-          >
-            Premium Articles
-          </NavLink>
-        </li>
-      )}
+      {isPremium ||
+        (isAdmin && (
+          <li>
+            <NavLink
+              className="hover:text-primary hover:underline duration-300"
+              to="/premium-articles"
+            >
+              Premium Articles
+            </NavLink>
+          </li>
+        ))}
+      <li>
+        <NavLink
+          className="hover:text-primary hover:underline duration-300"
+          to="/about-us"
+        >
+          About Us
+        </NavLink>
+      </li>
     </>
   );
   return (

@@ -21,6 +21,7 @@ import AddPublisher from "../pages/Dashboard/AddPublisher/AddPublisher";
 import AllPublishers from "../pages/Dashboard/AllPublishers/AllPublishers";
 import Subscription from "../pages/Subscription/Subscription";
 import Payment from "../pages/Payment/Payment";
+import AboutUs from "../pages/AboutUs/AboutUs";
 
 export const router = createBrowserRouter([
   {
@@ -103,6 +104,10 @@ export const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+      },
+      {
+        path: "about-us",
+        element: <AboutUs />,
       },
     ],
   },

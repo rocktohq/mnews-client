@@ -62,7 +62,7 @@ const Opinions = () => {
       <Title heading="Opinions" subHeading="What Users Say" big center />
       {isPending && <Loader />}
       {reviews.length > 0 && (
-        <div className="mt-5">
+        <div className="mt-5 overflow-hidden">
           <Slider {...settings}>
             {reviews.map((review) => (
               <OpinionCard key={review._id} review={review} />

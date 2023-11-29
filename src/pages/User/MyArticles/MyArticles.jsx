@@ -117,17 +117,21 @@ const MyArticles = () => {
                   </td>
                   <td>{article.isPremium ? "Yes" : "No"}</td>
                   <td>
-                    <Link to={`/update-article/${article._id}`}>
-                      <button className="btn btn-ghost">
-                        <FaEdit className="text-secondary" size={18} />
+                    <td>
+                      <Link to={`/update-article/${article._id}`}>
+                        <button className="btn btn-ghost">
+                          <FaEdit className="text-secondary" size={18} />
+                        </button>
+                      </Link>
+                    </td>
+                    <td>
+                      <button
+                        onClick={() => handleDelete(article._id)}
+                        className="btn btn-ghost"
+                      >
+                        <FaTrashAlt className="text-error" size={18} />
                       </button>
-                    </Link>
-                    <button
-                      onClick={() => handleDelete(article._id)}
-                      className="btn btn-ghost"
-                    >
-                      <FaTrashAlt className="text-error" size={18} />
-                    </button>
+                    </td>
                   </td>
                 </tr>
               ))}

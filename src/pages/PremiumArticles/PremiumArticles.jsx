@@ -1,47 +1,40 @@
-import { QueryClient, useInfiniteQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Container from "../../components/shared/Container";
 import { Helmet } from "react-helmet-async";
 import Title from "../../components/shared/Title";
 import ArticleCard from "../../components/shared/ArticleCard/ArticleCard";
 import Loader from "../../components/shared/Loader";
-import InfiniteScroll from "react-infinite-scroll-component";
+import { useQuery } from "@tanstack/react-query";
+import usePremium from "../../hooks/usePremium";
+import useAdmin from "../../hooks/useAdmin";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const PremiumArticles = () => {
   const axiosSecure = useAxiosSecure();
-  const limit = 1;
+  const { isAdmin } = useAdmin();
+  const { isPremium } = usePremium();
+  const navigate = useNavigate();
 
-  // Data Fetching Function
-  const getArticles = async ({ pageParam = 0 }) => {
-    const res = await axiosSecure(
-      `/premium-articles?limit=${limit}&offset=${pageParam}`
-    );
-    return { ...res.data, prevOffset: pageParam };
-  };
+  if (!isPremium || !isAdmin) {
+    toast.error("Your are not premium member!");
+    navigate("/");
+  }
 
-  // Infinite Query [TanstackQuery]
-  const { data, fetchNextPage, hasNextPage, isPending, isLoading } =
-    useInfiniteQuery({
-      queryKey: ["premiumArticles"],
-      queryFn: getArticles,
-      getNextPageParam: (lastPage) => {
-        if (lastPage.prevOffset + limit > lastPage.articlesCount) {
-          return false;
-        }
-        return lastPage.prevOffset + limit;
-      },
-      onSettled: () => {
-        QueryClient.invalidateQueries(["premiumArticles"]);
-      },
-    });
+  const {
+    data: articles = [],
+    isPending,
+    isLoading,
+  } = useQuery({
+    queryKey: ["articles"],
+    queryFn: async () => {
+      const res = await axiosSecure("/premium-articles");
+      return res.data.articles;
+    },
+  });
 
   // If Loading
   if (isPending || isLoading) return <Loader />;
-
-  // Merging the Data
-  const articles = data?.pages.reduce((acc, page) => {
-    return [...acc, ...page.articles];
-  }, []);
 
   return (
     <Container className="py-10">
@@ -53,20 +46,13 @@ const PremiumArticles = () => {
         subHeading="Read Our Premium Articles"
         big
       />
-      <InfiniteScroll
-        dataLength={articles ? articles.length : 0}
-        next={() => fetchNextPage()}
-        hasMore={hasNextPage}
-        loading={<div>Loading...☝️</div>}
-      >
-        {articles.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
-            {articles.map((article) => (
-              <ArticleCard key={article._id} article={article} />
-            ))}
-          </div>
-        )}
-      </InfiniteScroll>
+      {articles.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
+          {articles.map((article) => (
+            <ArticleCard key={article._id} article={article} />
+          ))}
+        </div>
+      )}
     </Container>
   );
 };

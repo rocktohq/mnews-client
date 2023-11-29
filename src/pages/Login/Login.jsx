@@ -6,11 +6,13 @@ import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import Lottie from "lottie-react";
 import state from "../../assets/animation/stateChange.json";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const Login = () => {
   const { signInUser, googleSignIn } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
+  const axiosPublic = useAxiosPublic();
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -36,7 +38,16 @@ const Login = () => {
   const handleGoogleLogin = async () => {
     const toastId = toast.loading("Login in user...");
     try {
-      await googleSignIn();
+      const res = await googleSignIn();
+
+      const user = {
+        name: res?.user?.displayName,
+        email: res?.user?.email,
+        photo: res?.user?.photoURL,
+      };
+
+      await axiosPublic.post("/users", user);
+      
       toast.success("Login successful", { id: toastId });
       if (location?.state) {
         navigate(`${location.state}`);

@@ -92,24 +92,28 @@ const Navbar = () => {
           </li>
         </>
       )}
-      {user?.email && (isAdmin || isPremium) ? (
-        <li>
-          <NavLink
-            className="hover:text-primary hover:underline duration-300"
-            to="/premium-articles"
-          >
-            Premium Articles
-          </NavLink>
-        </li>
+      {user?.email ? (
+        isAdmin || isPremium ? (
+          <li>
+            <NavLink
+              className="hover:text-primary hover:underline duration-300"
+              to="/premium-articles"
+            >
+              Premium Articles
+            </NavLink>
+          </li>
+        ) : (
+          <li>
+            <NavLink
+              className="hover:text-primary hover:underline duration-300"
+              to="/subscription"
+            >
+              Subscription
+            </NavLink>
+          </li>
+        )
       ) : (
-        <li>
-          <NavLink
-            className="hover:text-primary hover:underline duration-300"
-            to="/subscription"
-          >
-            Subscription
-          </NavLink>
-        </li>
+        ""
       )}
       <li>
         <NavLink

@@ -195,13 +195,17 @@ const AllArticles = () => {
                   <td>{article?.publisher?.name}</td>
                   <td>
                     <td>
-                      <button
-                        onClick={() => handleMakePremium(article._id)}
-                        className="btn btn-ghost"
-                      >
-                        <FaDollarSign className="text-success" size={18} /> Make
-                        Premium
-                      </button>
+                      {article?.isPremium ? (
+                        "Premium"
+                      ) : (
+                        <button
+                          onClick={() => handleMakePremium(article._id)}
+                          className="btn btn-ghost"
+                        >
+                          <FaDollarSign className="text-success" size={18} />{" "}
+                          Make Premium
+                        </button>
+                      )}
                     </td>
                     <td>
                       <button

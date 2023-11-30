@@ -1,6 +1,5 @@
 import { Helmet } from "react-helmet-async";
 import Container from "../../../components/shared/Container";
-import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import Loader from "../../../components/shared/Loader";
@@ -12,24 +11,28 @@ import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import Select from "react-select";
 import useTags from "../../../hooks/useTags";
 import toast from "react-hot-toast";
+import useAuth from "../../../hooks/useAuth";
 
 const imgbbApiKey = import.meta.env.VITE_IMGBB_API_KEY;
 const imgbbApiUrl = `https://api.imgbb.com/1/upload?key=${imgbbApiKey}`;
 
 const UpdateArticle = () => {
-  const { user } = useAuth();
   const { tagsManager } = useTags();
   const { publishers } = usePublishers();
   const [tags, setTags] = useState([]);
-
+  const { user } = useAuth();
   const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
   const { id } = useParams();
 
-  const { data: singleArticle = [], isPending } = useQuery({
+  const {
+    data: singleArticle = {},
+    isPending,
+    refetch,
+  } = useQuery({
     queryKey: ["updateArticle", id],
     queryFn: async () => {
-      const res = await axiosSecure(`/articles/${id}`);
+      const res = await axiosSecure.get(`/articles/owner/${id}`);
       return res.data;
     },
   });
@@ -80,18 +83,17 @@ const UpdateArticle = () => {
         article
       );
 
-      console.log(res.data);
-
       if (res.data?.modifiedCount > 0) {
         toast.success("Article updated successfully", { id: toastId });
         form.reset();
+        refetch();
       }
     } catch (error) {
       toast.error(error, { id: toastId });
     }
   };
   if (isPending) return <Loader />;
-  console.log(tags);
+
   return (
     <Container>
       <Helmet>

@@ -98,7 +98,6 @@ const CheckoutForm = () => {
   if (error) {
     toast.dismiss();
     toast.error(error);
-    return;
   }
 
   return (

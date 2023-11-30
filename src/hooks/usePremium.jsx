@@ -6,7 +6,7 @@ const usePremium = () => {
   const { user, loading } = useAuth();
   const axiosSecure = useAxiosSecure();
   const {
-    data,
+    data = {},
     isPending: isPremiumLoading,
     refetch,
   } = useQuery({

@@ -5,21 +5,9 @@ import Title from "../../components/shared/Title";
 import ArticleCard from "../../components/shared/ArticleCard/ArticleCard";
 import Loader from "../../components/shared/Loader";
 import { useQuery } from "@tanstack/react-query";
-import usePremium from "../../hooks/usePremium";
-import useAdmin from "../../hooks/useAdmin";
-import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
 
 const PremiumArticles = () => {
   const axiosSecure = useAxiosSecure();
-  const { isAdmin } = useAdmin();
-  const { isPremium } = usePremium();
-  const navigate = useNavigate();
-
-  if (!isPremium || !isAdmin) {
-    toast.error("Your are not premium member!");
-    navigate("/");
-  }
 
   const {
     data: articles = [],

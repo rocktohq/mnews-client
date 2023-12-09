@@ -1,22 +1,20 @@
 # mNews
 
-**mNews** is a _Article Publishing_ web application project coded in react with love[💝]. User can publish their article and read other articles.
+**mNews** is a _Article Publishing_ web application project coded in react with love. User can publish their article and read other articles.
 
-## Technologies
+## Live Demo
+**Demo Link:** https://m-newshq.web.app
+<br/>
+*Admin Email:* admin@gmail.com *Admin Password:* Admin321@
 
-**Front-End:**
+## Technologies Used
+
+**Core Technologies:**
 
 - **ReactJS:** We have used ReactJS for the front-end rendering.
 - **TailWindCSS:** TailWindCSS is a utility-first CSS framework.
 - **DaisyUI:** DaisyUI is a tailwindcss component library
-
-**Back-End:**
-
-- **ExpressJS:** ExpressJS Component Library of NodeJS is used for the Sever.
-
-**Database:**
-
-- **MongoDB:** For database server we have used MongoDB.
+- **Firebase:** Firebase used for authentication.
 
 **Other Components:**
 
@@ -50,4 +48,20 @@
 - **ADMIN => ALl Publishers:** All publishers section conatins information about all the publishers.
 - **ADMIN => Add Publisher:** From here, admi can add a publisher.
 
-**Live Demo:** https://m-newshq.web.app
+<br/>
+
+## Setup
+
+#### Clone the Repo
+```
+git clone https://github.com/rocktohq/mnews-client.git
+```
+#### Install Dependencies
+```
+npm install
+```
+#### Run the Project
+```
+npm run dev
+```
+***Note:*** Update ***src > config > firebase.config.js*** and replace your firebase configuration

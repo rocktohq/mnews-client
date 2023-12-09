@@ -3,7 +3,7 @@
 **mNews** is a _Article Publishing_ web application project coded in react with love. User can publish their article and read other articles.
 
 ## Live Demo
-**Demo Link:** https://m-newshq.web.app
+<a href="https://m-newshq.web.app">**Demo Link**</a>
 <br/>
 *Admin Email:* admin@gmail.com *Admin Password:* Admin321@
 
